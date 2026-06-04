@@ -1,5 +1,4 @@
 import random
-import urllib.parse
 import streamlit as st
 
 # 페이지 설정
@@ -73,31 +72,10 @@ if st.session_state.chosen_word:
     cat = st.session_state.category
     
     st.markdown("---")
-    st.info(f"🔮 **[{cat}] 오늘의 추천 키워드**\n\n### `{word}`")
+    st.info(f"🔮 **[{cat}] 오늘의 추천 키워드**")
     
-    # URL 파라미터 안전하게 포맷팅
-    encoded_word = urllib.parse.quote_plus(word)
-    search_url = f"https://google.com{encoded_word}"
+    # 🎯 [핵심 변경] 클릭 한 번으로 복사할 수 있는 전용 복사창 제공
+    # 우측 상단의 복사 아이콘을 누르면 클립보드에 바로 저장됩니다.
+    st.code(word, language="")
     
-    # 🎯 [핵심 변경] 브라우저에 직접 새 창을 열도록 명령하는 자바스크립트 인젝션 버튼 사용
-    # 이 방식은 Streamlit 환경에서 주소가 깨지거나 뒤틀리는 현상을 완벽하게 방지합니다.
-    st.markdown(
-        f"""
-        <button onclick="window.open('{search_url}', '_blank')" style="
-            width: 100%;
-            background-color: #FF4B4B;
-            color: white;
-            padding: 12px 20px;
-            text-align: center;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
-        ">
-            👉 구글에서 정체 확인하기 (새 창에서 열기)
-        </button>
-        """,
-        unsafe_allow_html=True
-    )
+    st.caption("▲ 위 상자 우측의 **복사 아이콘**을 누른 뒤, 구글 검색창에 붙여넣기(Ctrl+V) 해보세요!")
