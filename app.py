@@ -88,12 +88,7 @@ with main_container:
         st.info(f"🔮 **[{cat}]**")
         st.code(word, language="")
         
-        encoded_word = urllib.parse.quote(word)
+encoded_word = urllib.parse.quote(word)
 google_url = f"https://google.com{encoded_word}"
 st.link_button("🌐 구글에서 검색 결과 보기", google_url, use_container_width=True)
-
-        google_url = f"https://google.com{encoded_word}"
-
-        
-        # 구글 검색 바로가기 버튼 생성
-        st.link_button("🌐 구글에서 검색 결과 보기", google_url, use_container_width=True)
+iner_width=True)
