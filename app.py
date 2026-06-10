@@ -10,7 +10,7 @@ st.write("카테고리를 선택하고 버튼을 눌러보세요!")
 
 # 데이터베이스 (단어: 카테고리)
 search_data = {
-    # 🌿 초희귀 신비한 동식물
+    # 초희귀 신비한 동식물
     "무각거북고둥": "신비한 동식물",
     "화살표 미크라테나": "신비한 동식물",
     "스네이크스킨 구라미": "신비한 동식물",
@@ -60,7 +60,7 @@ if selected_category == "전체보기":
 else:
     filtered_words = [word for word, cat in search_data.items() if cat == selected_category]
 
-# 세션 상태 유지 (결과 증발 방지)
+# 세션 상태 유지
 if "chosen_word" not in st.session_state:
     st.session_state.chosen_word = None
 if "category" not in st.session_state:
@@ -88,8 +88,10 @@ with main_container:
         st.info(f"🔮 **[{cat}]**")
         st.code(word, language="")
         
-        # 주소 오타를 수정하고 공백문자 처리를 완료한 안전한 URL 링크
         encoded_word = urllib.parse.quote(word)
+google_url = f"https://google.com{encoded_word}"
+st.link_button("🌐 구글에서 검색 결과 보기", google_url, use_container_width=True)
+
         google_url = f"https://google.com{encoded_word}"
 
         
