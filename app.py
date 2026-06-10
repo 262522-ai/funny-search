@@ -80,13 +80,14 @@ with main_container:
             st.session_state.chosen_word = None
             st.session_state.category = None
 
-    # 추천 결과 출력 및 검색 포털 연동
+      # 추천 결과 출력 및 검색 포털 연동
     if st.session_state.chosen_word:
         word = st.session_state.chosen_word
-          st.info(f"🔮 **[{cat}]**")
+        cat = st.session_state.category
+        
+        st.info(f"🔮 **[{cat}]**")
         st.code(word, language="")
         
-        # 줄 바꿈과 들여쓰기를 완벽히 맞춘 코드
         encoded_word = urllib.parse.quote(word)
         google_url = f"https://google.com{encoded_word}"
         st.link_button("🌐 구글에서 검색 결과 보기", google_url, use_container_width=True)
