@@ -18,7 +18,7 @@ search_data = {
     "유튜브 666": "인터넷 미스터리 & 괴담", "타임머신 설계도 존 티토": "인터넷 미스터리 & 괴담",
     "시카다 3301": "인터넷 미스터리 & 괴담", "셀린 디온 역재생 괴담": "인터넷 미스터리 & 괴담",
     "오가네손": "지식 만렙 챌린지", "프라세오디뮴": "지식 만렙 챌린지", "티틴 단백질 풀네임": "지식 만렙 챌린지",
-    "타우마타와카탕이한가코아우아우오타마테아트투리푸카카피키마운가호로누쿠포카이व्": "지식 만렙 챌린지",
+    "타우마타와카탕이한가코아우아우오타마테아트투리푸카카피키마운가호로누쿠포카이브": "지식 만렙 챌린지",
     "아리아리": "지식 만렙 챌린지", "안다미로": "지식 만렙 챌린지", "시나브로": "지식 만렙 챌린지", "윤슬": "지식 만렙 챌린지"
 }
 
@@ -41,7 +41,7 @@ if "chosen_word" not in st.session_state:
 if "category" not in st.session_state:
     st.session_state.category = None
 
-# 6. 뽑기 버튼 액션
+# 6. 뽑기 버튼
 if st.button("✨ 오늘의 검색어 뽑기", use_container_width=True):
     if filtered_words:
         st.session_state.chosen_word = random.choice(filtered_words)
@@ -49,7 +49,7 @@ if st.button("✨ 오늘의 검색어 뽑기", use_container_width=True):
     else:
         st.warning("선택한 카테고리에 데이터가 없습니다.")
 
-# 7. [구조 단순화] 들여쓰기 에러를 방지하기 위해 밖으로 완전히 빼낸 출력 부분
+# 7. 결과 출력 (버튼 밖으로 빼서 세션 유지)
 if st.session_state.chosen_word:
     word = st.session_state.chosen_word
     cat = st.session_state.category
@@ -57,7 +57,7 @@ if st.session_state.chosen_word:
     st.info(f"🔮 **[{cat}]**")
     st.code(word, language="")
     
-    # 구글 검색 연동 (수정 완료)
+    # ✅ 수정된 구글 검색 링크
     encoded_word = urllib.parse.quote(word)
-    google_url = f"https://google.com{encoded_word}"
+    google_url = f"https://www.google.com/search?q={encoded_word}"
     st.link_button("🌐 구글에서 검색 결과 보기", google_url, use_container_width=True)
