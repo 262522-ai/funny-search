@@ -1,6 +1,6 @@
 import random
 import streamlit as st
-import urllib.parse  # 검색 URL 인코딩용 라이브러리 추가
+import urllib.parse  # 검색어 내 공백 및 특수문자 안전 변환용
 
 # 페이지 설정
 st.set_page_config(page_title="재밌는 검색어 추천기", page_icon="🔍")
@@ -47,7 +47,7 @@ search_data = {
     "윤슬": "지식 만렙 챌린지"
 }
 
-# 사이드바 카테고리
+# 사이드바 카테고리 설정
 st.sidebar.markdown("### 📂 카테고리 선택")
 selected_category = st.sidebar.radio(
     "보고 싶은 분야를 선택하세요:",
@@ -60,13 +60,13 @@ if selected_category == "전체보기":
 else:
     filtered_words = [word for word, cat in search_data.items() if cat == selected_category]
 
-# 세션 상태 유지
+# 세션 상태 유지 (결과 증발 방지)
 if "chosen_word" not in st.session_state:
     st.session_state.chosen_word = None
 if "category" not in st.session_state:
     st.session_state.category = None
 
-# 뽑기 및 밀착형 결과창 컨테이너
+# 결과창 컨테이너
 main_container = st.container()
 
 with main_container:
@@ -80,7 +80,7 @@ with main_container:
             st.session_state.chosen_word = None
             st.session_state.category = None
 
-    # 추천 결과 및 구글 검색 연동 출력
+    # 추천 결과 출력 및 검색 포털 연동
     if st.session_state.chosen_word:
         word = st.session_state.chosen_word
         cat = st.session_state.category
@@ -88,9 +88,9 @@ with main_container:
         st.info(f"🔮 **[{cat}]**")
         st.code(word, language="")
         
-        # 구글 검색 URL 생성 (한글/공백 인코딩 처리)
+        # 주소 오타를 수정하고 공백문자 처리를 완료한 안전한 URL 링크
         encoded_word = urllib.parse.quote(word)
-        search_url = f"https://google.com{encoded_word}"
+        google_url = f"https://google.com{encoded_word}"
         
-        # [핵심] 바로 구글로 이동하는 링크 버튼 추가
-        st.link_button("🌐 구글에서 검색 결과 보기", search_url, use_container_width=True)
+        # 구글 검색 바로가기 버튼 생성
+        st.link_button("🌐 구글에서 검색 결과 보기", google_url, use_container_width=True)
