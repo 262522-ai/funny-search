@@ -1,5 +1,6 @@
 import random
 import streamlit as st
+import urllib.parse  # 검색 URL 인코딩용 라이브러리 추가
 
 # 페이지 설정
 st.set_page_config(page_title="재밌는 검색어 추천기", page_icon="🔍")
@@ -7,7 +8,7 @@ st.set_page_config(page_title="재밌는 검색어 추천기", page_icon="🔍")
 st.title("🔍 재밌는 검색어 추천기")
 st.write("카테고리를 선택하고 버튼을 눌러보세요!")
 
-# 데이터베이스 (단어: 카테고리) - 가짜 단어 삭제 및 요청 사항 완벽 반영
+# 데이터베이스 (단어: 카테고리)
 search_data = {
     # 🌿 초희귀 신비한 동식물
     "무각거북고둥": "신비한 동식물",
@@ -35,18 +36,18 @@ search_data = {
     "시카다 3301": "인터넷 미스터리 & 괴담",
     "셀린 디온 역재생 괴담": "인터넷 미스터리 & 괴담",
 
-    # 🧠 [NEW] 지식 만렙 챌린지 (긴 원소, 긴 단어, 생소한 순우리말만 엄선)
-    "오가네손": "지식 만렙 챌린지", # 주기율표의 가장 마지막(118번)이자 이름이 가장 긴 방사성 원소
-    "프라세오디뮴": "지식 만렙 챌린지", # 발음하기 어렵고 생소한 은백색 희토류 금속 원소
-    "티틴 단백질 풀네임": "지식 만렙 챌린지", # 글자 수만 189,819자에 달하는 세상에서 가장 긴 단어
-    "타우마타와카탕이한가코아우아우오타마테아트투리푸카카피키마운가호로누쿠포카이व्": "지식 만렙 챌린지", # 뉴질랜드에 있는 세계에서 가장 이름이 긴 언덕 (85글자)
-    "아리아리": "지식 만렙 챌린지", # '길을 찾아 나아가다'라는 뜻을 가진 매우 생소하고 이쁜 순우리말
-    "안다미로": "지식 만렙 챌린지", # '담은 것이 그릇에 넘치도록 많이'라는 뜻을 가진 신기한 순우리말
-    "시나브로": "지식 만렙 챌린지", # '모르는 사이에 조금씩 조금씩'이라는 뜻을 가진 아름다운 순우리말
-    "윤슬": "지식 만렙 챌린지" # '햇빛이나 달빛에 비치어 반짝이는 잔물결'을 뜻하는 생소하고 서정적인 순우리말
+    # 🧠 지식 만렙 챌린지
+    "오가네손": "지식 만렙 챌린지",
+    "프라세오디뮴": "지식 만렙 챌린지",
+    "티틴 단백질 풀네임": "지식 만렙 챌린지",
+    "타우마타와카탕이한가코아우아우오타마테아트투리푸카카피키마운가호로누쿠포카이व्": "지식 만렙 챌린지",
+    "아리아리": "지식 만렙 챌린지",
+    "안다미로": "지식 만렙 챌린지",
+    "시나브로": "지식 만렙 챌린지",
+    "윤슬": "지식 만렙 챌린지"
 }
 
-# 사이드바 카테고리 (새 카테고리 이름 업데이트)
+# 사이드바 카테고리
 st.sidebar.markdown("### 📂 카테고리 선택")
 selected_category = st.sidebar.radio(
     "보고 싶은 분야를 선택하세요:",
@@ -59,7 +60,7 @@ if selected_category == "전체보기":
 else:
     filtered_words = [word for word, cat in search_data.items() if cat == selected_category]
 
-# 세션 상태 유지 (결과 증발 방지)
+# 세션 상태 유지
 if "chosen_word" not in st.session_state:
     st.session_state.chosen_word = None
 if "category" not in st.session_state:
@@ -79,11 +80,17 @@ with main_container:
             st.session_state.chosen_word = None
             st.session_state.category = None
 
-    # 추천 결과 출력 (간격 밀착형 구조 완벽 유지)
+    # 추천 결과 및 구글 검색 연동 출력
     if st.session_state.chosen_word:
         word = st.session_state.chosen_word
         cat = st.session_state.category
         
         st.info(f"🔮 **[{cat}]**")
         st.code(word, language="")
-
+        
+        # 구글 검색 URL 생성 (한글/공백 인코딩 처리)
+        encoded_word = urllib.parse.quote(word)
+        search_url = f"https://google.com{encoded_word}"
+        
+        # [핵심] 바로 구글로 이동하는 링크 버튼 추가
+        st.link_button("🌐 구글에서 검색 결과 보기", search_url, use_container_width=True)
