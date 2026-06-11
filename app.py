@@ -1,6 +1,7 @@
 import random
 import streamlit as st
 import urllib.parse
+import streamlit.components.v1 as components   # ← 추가
 
 # 1. 페이지 설정
 st.set_page_config(page_title="재밌는 검색어 추천기", page_icon="🔍")
@@ -64,7 +65,17 @@ if st.session_state.chosen_word:
     google_url = f"https://www.google.com/search?q={encoded_word}"
     st.link_button("🌐 구글에서 검색 결과 보기", google_url, use_container_width=True)
     
-    # ✅ 괴담 카테고리일 때만 구글 이미지 링크 추가
+    # 괴담 카테고리 이미지 링크
     if cat == "인터넷 미스터리 & 괴담":
         image_url = f"https://www.google.com/search?tbm=isch&q={encoded_word}"
         st.link_button("🖼️ 구글 이미지에서 보기", image_url, use_container_width=True)
+    
+    # ✅ 구글 이스터에그는 선택하자마자 바로 새 탭에서 실행
+    if cat == "구글 이스터에그":
+        components.html(f"""
+            <script>
+                window.open('{google_url}', '_blank');
+            </script>
+        """, height=0)
+        
+        st.caption("💡 새 탭에서 구글 이스터에그가 실행됩니다!")
