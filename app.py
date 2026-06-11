@@ -17,14 +17,8 @@ search_data = {
     "백룸 The Backrooms": "인터넷 미스터리 & 괴담", "사다코 패러독스": "인터넷 미스터리 & 괴담",
     "유튜브 666": "인터넷 미스터리 & 괴담", "타임머신 설계도 존 티토": "인터넷 미스터리 & 괴담",
     "시카다 3301": "인터넷 미스터리 & 괴담", "셀린 디온 역재생 괴담": "인터넷 미스터리 & 괴담",
-    
-    # ===== 우리말 만렙 챌린지 (최종 생소 버전) =====
-    "풀무질": "우리말 만렙 챌린지",
-    "오솔오솔": "우리말 만렙 챌린지",
-    "한들한들": "우리말 만렙 챌린지",
-    "아스라하다": "우리말 만렙 챌린지",
-    "아련아련": "우리말 만렙 챌린지",
-    "별무리": "우리말 만렙 챌린지",
+    "풀무질": "우리말 만렙 챌린지", "오솔오솔": "우리말 만렙 챌린지", "한들한들": "우리말 만렙 챌린지",
+    "아스라하다": "우리말 만렙 챌린지", "아련아련": "우리말 만렙 챌린지", "별무리": "우리말 만렙 챌린지",
     "달무리": "우리말 만렙 챌린지",
     "타우마타와카탕이한가코아우아우오타마테아트투리푸카카피키마운가호로누쿠포카이브": "우리말 만렙 챌린지"
 }
@@ -65,5 +59,12 @@ if st.session_state.chosen_word:
     st.code(word, language="")
     
     encoded_word = urllib.parse.quote(word)
+    
+    # 기존 구글 검색 링크
     google_url = f"https://www.google.com/search?q={encoded_word}"
     st.link_button("🌐 구글에서 검색 결과 보기", google_url, use_container_width=True)
+    
+    # ✅ 괴담 카테고리일 때만 구글 이미지 링크 추가
+    if cat == "인터넷 미스터리 & 괴담":
+        image_url = f"https://www.google.com/search?tbm=isch&q={encoded_word}"
+        st.link_button("🖼️ 구글 이미지에서 보기", image_url, use_container_width=True)
